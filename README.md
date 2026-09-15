@@ -1,33 +1,29 @@
-# Thai License Plate Detection
+# Thai License Plate Deskew
 
-เว็บแอป Flask สำหรับอัปโหลดภาพรถ ตรวจจับป้ายทะเบียนด้วย OpenCV และปรับมุมมองภาพป้ายทะเบียน โดยไม่เก็บไฟล์หรือผลลัพธ์ลงฐานข้อมูล
+เว็บแอป Streamlit สำหรับเลือกตำแหน่งป้ายทะเบียน 4 จุด ปรับมุมภาพป้ายด้วย Perspective Transform และเพิ่มความคมชัดด้วย OpenCV
 
-แอปไม่มีระบบบัญชีผู้ใช้, session หรือ cookie และไม่ต้องตั้งค่า `SECRET_KEY`
+แอปไม่มีฐานข้อมูล ไม่เก็บไฟล์อัปโหลด และเก็บจุดที่ผู้ใช้เลือกไว้เฉพาะระหว่างเปิดหน้าเว็บนั้น
 
 ## ความสามารถ
 
-- ตรวจจับตำแหน่งป้ายทะเบียนจากภาพด้วย Classical Computer Vision
-- ปรับมุมป้ายทะเบียนอัตโนมัติ หรือกำหนด 4 จุดมุมด้วยตนเอง
-- ตรวจจับภาพเบลอและเพิ่มความคมชัดก่อนวิเคราะห์
-- แสดง confidence ของ preprocessing, contour และ corner
-- รองรับข้อความ/คำเตือนภาษาไทยสำหรับกรณีตรวจไม่พบป้ายและจุดมุมไม่ถูกต้อง
+- อัปโหลดภาพ JPG หรือ PNG ขนาดไม่เกิน 10 MB
+- ค้นหาตำแหน่งป้ายอัตโนมัติ หรือคลิกเลือกมุมป้าย 4 จุดด้วยตนเอง
+- ป้องกันจุดซ้ำ รูปสี่เหลี่ยมผิดรูป และการตัดภาพที่ไม่ถูกต้อง
+- แสดงภาพต้นฉบับพร้อมกรอบ และภาพป้ายที่ปรับมุมแล้ว
+- ดาวน์โหลดภาพผลลัพธ์เป็น PNG
 
-## เอกสาร
+## Deploy บน Streamlit Community Cloud
 
-- [RUN.md](RUN.md) — การติดตั้งและรันบนเครื่องส่วนตัว
-- [DEPLOYMENT.md](DEPLOYMENT.md) — การ build และ deploy ด้วย Docker
+1. Push โปรเจกต์นี้ขึ้น GitHub
+2. เข้า [Streamlit Community Cloud](https://share.streamlit.io/) และเชื่อมบัญชี GitHub
+3. เลือก repository, branch และไฟล์หลัก `app.py`
+4. กด **Deploy**
 
-## โครงสร้างสำคัญ
+Community Cloud จะติดตั้งไลบรารีจาก `requirements.txt` ให้อัตโนมัติ
+
+## ไฟล์ที่จำเป็น
 
 ```text
-app.py                    Flask routes
-cv_pipeline.py            ตรวจจับป้ายและประเมิน confidence
-coordinate_transform.py   ตรวจสอบจุดมุมและ perspective transform
-utils.py                  แปลง/วาดภาพ
-templates/                หน้าเว็บ
-static/                   CSS
+app.py             Streamlit application
+requirements.txt   dependencies for Streamlit Community Cloud
 ```
-
-## ข้อควรทราบ
-
-ผลการตรวจจับขึ้นกับความชัดของภาพ มุมของป้าย และแสง หากระบบเลือกป้ายผิด ให้ลาก 4 จุดในส่วน “ปรับแต่งตำแหน่งป้ายทะเบียนด้วยตนเอง” แล้วประมวลผลใหม่
