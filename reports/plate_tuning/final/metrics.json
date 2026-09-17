@@ -1,0 +1,204 @@
+{
+  "archive": "License plate.v23-v4-8.yolov8.zip",
+  "archive_sha256": "97aa402599a2b114cf630c442b83c0d0b808870f21cfb33f3ebf7d3661eae430",
+  "seed": 42,
+  "grouping": "filename stem before .rf.",
+  "baseline_scoring": {
+    "weights": [
+      0.1,
+      0.15,
+      0.15,
+      0.1,
+      0.15,
+      0.35
+    ],
+    "area_band": [
+      0.0,
+      0.003,
+      0.35,
+      0.85
+    ],
+    "aspect_band": [
+      0.8,
+      1.4,
+      2.5,
+      4.5
+    ],
+    "min_aspect": 0.9,
+    "max_aspect": 4.5,
+    "max_area_fraction": 0.85,
+    "minimum_score": 0.62,
+    "minimum_edge_density": 0.012,
+    "corner_area_fit": 0.88,
+    "direct_rectangularity": 0.7,
+    "direct_solidity": 0.85
+  },
+  "experiments": [
+    {
+      "name": "baseline",
+      "settings": {
+        "name": "baseline",
+        "preprocessing": {
+          "kernel_size": 7,
+          "canny_low": 35,
+          "canny_high": 110,
+          "minimum_area": 150
+        },
+        "scoring": {
+          "weights": [
+            0.1,
+            0.15,
+            0.15,
+            0.1,
+            0.15,
+            0.35
+          ],
+          "area_band": [
+            0.0,
+            0.003,
+            0.35,
+            0.85
+          ],
+          "aspect_band": [
+            0.8,
+            1.4,
+            2.5,
+            4.5
+          ],
+          "min_aspect": 0.9,
+          "max_aspect": 4.5,
+          "max_area_fraction": 0.85,
+          "minimum_score": 0.62,
+          "minimum_edge_density": 0.012,
+          "corner_area_fit": 0.88,
+          "direct_rectangularity": 0.7,
+          "direct_solidity": 0.85
+        }
+      },
+      "metrics": {
+        "tune": {
+          "images": 273,
+          "groups": 91,
+          "hits_iou50": 117,
+          "hit_rate_iou50": 0.42857142857142855,
+          "incorrect_returned": 103,
+          "returned_precision_iou50": 0.5318181818181819,
+          "hits_iou75": 28,
+          "mean_iou": 0.3667975251717372,
+          "no_detection": 53,
+          "mean_seconds": 0.029189139190078765
+        },
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 48,
+          "hit_rate_iou50": 0.5333333333333333,
+          "incorrect_returned": 23,
+          "returned_precision_iou50": 0.676056338028169,
+          "hits_iou75": 16,
+          "mean_iou": 0.4106490700985778,
+          "no_detection": 19,
+          "mean_seconds": 0.02948709114247726
+        },
+        "test": {
+          "images": 93,
+          "groups": 31,
+          "hits_iou50": 39,
+          "hit_rate_iou50": 0.41935483870967744,
+          "incorrect_returned": 27,
+          "returned_precision_iou50": 0.5909090909090909,
+          "hits_iou75": 14,
+          "mean_iou": 0.3560622514101325,
+          "no_detection": 27,
+          "mean_seconds": 0.03025439354561029
+        }
+      }
+    },
+    {
+      "name": "tuned",
+      "settings": {
+        "name": "tuned",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 150
+        },
+        "scoring": {
+          "weights": [
+            0.1,
+            0.15,
+            0.15,
+            0.1,
+            0.15,
+            0.35
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ],
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "min_aspect": 0.6,
+          "max_aspect": 4.5,
+          "max_area_fraction": 1.0,
+          "minimum_score": 0.62,
+          "minimum_edge_density": 0.012,
+          "corner_area_fit": 0.8,
+          "direct_rectangularity": 0.65,
+          "direct_solidity": 0.8
+        }
+      },
+      "metrics": {
+        "tune": {
+          "images": 273,
+          "groups": 91,
+          "hits_iou50": 127,
+          "hit_rate_iou50": 0.4652014652014652,
+          "incorrect_returned": 132,
+          "returned_precision_iou50": 0.49034749034749037,
+          "hits_iou75": 33,
+          "mean_iou": 0.39905333575072716,
+          "no_detection": 14,
+          "mean_seconds": 0.04744065861514473
+        },
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 55,
+          "hit_rate_iou50": 0.6111111111111112,
+          "incorrect_returned": 29,
+          "returned_precision_iou50": 0.6547619047619048,
+          "hits_iou75": 22,
+          "mean_iou": 0.4745174165163881,
+          "no_detection": 6,
+          "mean_seconds": 0.0481910711257822
+        },
+        "test": {
+          "images": 93,
+          "groups": 31,
+          "hits_iou50": 40,
+          "hit_rate_iou50": 0.43010752688172044,
+          "incorrect_returned": 48,
+          "returned_precision_iou50": 0.45454545454545453,
+          "hits_iou75": 14,
+          "mean_iou": 0.37745603068167194,
+          "no_detection": 5,
+          "mean_seconds": 0.04965561723977487
+        }
+      }
+    }
+  ],
+  "runtime": {
+    "python": "3.13.2",
+    "opencv": "4.10.0",
+    "numpy": "2.3.5",
+    "workers": 1
+  }
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "category": "Improved",
+    "name": "train/images/2011042210075837_jpg.rf.3aa64e0bbdfeabbe7b7af7cf7b5bd06e.jpg"
+  },
+  {
+    "category": "Improved",
+    "name": "train/images/images--2-_jpg.rf.a061bf58f5805505f7426d4f95d37356.jpg"
+  },
+  {
+    "category": "Regressed",
+    "name": "train/images/download_jpg.rf.94356d9ac5b1c6875488e8c16184a86a.jpg"
+  },
+  {
+    "category": "Regressed",
+    "name": "train/images/images--28-_jpg.rf.8281ef1cf43b158af53082cd2d5bbabf.jpg"
+  },
+  {
+    "category": "Still incorrect",
+    "name": "train/images/images--61-_jpg.rf.682ff270bdba6baf752e984ff8275f7c.jpg"
+  },
+  {
+    "category": "Still incorrect",
+    "name": "train/images/images--90-_jpg.rf.a8397f72aed40495d17b2b3523fbfabf.jpg"
+  }
+]

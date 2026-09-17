@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import io
-from typing import Any, Optional
+from typing import Any
 
 import cv2
 import numpy as np
@@ -12,66 +12,37 @@ from PIL import Image
 import streamlit as st
 from streamlit_image_coordinates import streamlit_image_coordinates
 
+from plate_detection import DATASET_CONFIG, DEFAULT_CONFIG, auto_detect_plate, detect_plate, order_points, validate_quadrilateral
+
 
 MAX_UPLOAD_BYTES = 10 * 1024 * 1024
 MAX_DISPLAY_WIDTH = 740
 MAX_PROCESSING_DIMENSION = 1600
-REFERENCE_IMAGE_AREA = 1920 * 1080
-DETECTOR_SETTINGS_VERSION = 5
-MIN_PLATE_ASPECT_RATIO = 0.9
-MAX_PLATE_ASPECT_RATIO = 4.0
+DETECTOR_SETTINGS_VERSION = 7
+DEFAULT_PRESET = "ทดลอง dataset v23"
 PRESETS: dict[str, dict[str, Any]] = {
     "ภาพใกล้": {"kernel": 7, "canny_low": 35, "canny_high": 110, "min_area": 350, "clahe": 2.0, "unsharp": 1.2, "description": "ค่าตั้งต้นที่ผ่านการลองกับภาพป้ายขนาดใหญ่: blur มากขึ้นเพื่อลดขอบรายละเอียดของรถ"},
     "ภาพปานกลาง": {"kernel": 7, "canny_low": 35, "canny_high": 110, "min_area": 150, "clahe": 2.5, "unsharp": 1.5, "description": "ค่าตั้งต้นที่ให้ผลสม่ำเสมอกับป้ายขนาดกลาง: ลด noise ก่อนหาเส้นขอบหลัก"},
     "ภาพไกล": {"kernel": 5, "canny_low": 20, "canny_high": 80, "min_area": 50, "clahe": 3.0, "unsharp": 2.0, "description": "เก็บขอบที่อ่อนของป้ายไกลด้วย Canny ที่ไวขึ้น แต่ยัง blur พอช่วยลดจุดรบกวน"},
+    "ทดลอง dataset v23": {"kernel": 3, "canny_low": 20, "canny_high": 80, "min_area": 150, "clahe": 2.5, "unsharp": 1.5, "detector_config": DATASET_CONFIG, "description": "ค่าเริ่มต้น: ใช้ Blur 3, Canny 20/80 และเกณฑ์คะแนน/มุมจาก dataset v23 เมื่อกดค้นหาป้ายอัตโนมัติ"},
 }
 
 
 def initialise_state() -> None:
-    for key, value in {"preset": "ภาพปานกลาง", "applied_preset": None, "image_token": None, "selected_points": [], "last_click_token": None}.items():
+    for key, value in {"preset": DEFAULT_PRESET, "applied_preset": None, "image_token": None, "selected_points": [], "last_click_token": None}.items():
         st.session_state.setdefault(key, value)
-    # Existing browser sessions may retain the old 3,000-pixel close-range
-    # threshold, which is too high for many visible plates. Apply the revised
-    # preset values once after this detector update.
+    # Refresh preset state once after the detector settings change.
     if st.session_state.get("detector_settings_version") != DETECTOR_SETTINGS_VERSION:
         st.session_state["detector_settings_version"] = DETECTOR_SETTINGS_VERSION
+        st.session_state["preset"] = DEFAULT_PRESET
         st.session_state["applied_preset"] = None
 
 
 def apply_preset(name: str) -> None:
     for key, value in PRESETS[name].items():
-        if key != "description":
+        if key not in ("description", "detector_config"):
             st.session_state[key] = value
     st.session_state["applied_preset"] = name
-
-
-def order_points(points: np.ndarray) -> np.ndarray:
-    """Return distinct source points in TL, TR, BR, BL order."""
-    points = np.asarray(points, dtype=np.float32).reshape(4, 2)
-    centre = points.mean(axis=0)
-    angles = np.arctan2(points[:, 1] - centre[1], points[:, 0] - centre[0])
-    ordered = points[np.argsort(angles)]
-    return np.roll(ordered, -int(np.argmin(ordered[:, 0] + ordered[:, 1])), axis=0).astype(np.float32)
-
-
-def validate_quadrilateral(points: np.ndarray) -> tuple[bool, str]:
-    """Require four separate points forming a non-degenerate convex quadrilateral."""
-    points = np.asarray(points, dtype=np.float32)
-    if points.shape != (4, 2) or not np.isfinite(points).all():
-        return False, "พิกัดจุดมุมไม่ถูกต้อง"
-    for first in range(4):
-        for second in range(first + 1, 4):
-            if np.linalg.norm(points[first] - points[second]) < 8.0:
-                return False, "จุดมุมทั้ง 4 ต้องไม่ซ้ำกันหรืออยู่ใกล้กันเกินไป"
-    if abs(float(cv2.contourArea(points))) < 100.0:
-        return False, "พื้นที่ที่เลือกเล็กเกินไป"
-    turns = []
-    for index in range(4):
-        first, second, third = points[index], points[(index + 1) % 4], points[(index + 2) % 4]
-        turns.append(float((second[0] - first[0]) * (third[1] - second[1]) - (second[1] - first[1]) * (third[0] - second[0])))
-    if not (all(turn > 0.001 for turn in turns) or all(turn < -0.001 for turn in turns)):
-        return False, "จุดทั้ง 4 ต้องสร้างรูปสี่เหลี่ยมนูนที่ไม่ตัดกัน"
-    return True, ""
 
 
 def warp_plate(image_bgr: np.ndarray, ordered_points: np.ndarray) -> np.ndarray:
@@ -117,63 +88,6 @@ def slider_with_info(label: str, minimum: Any, maximum: Any, step: Any, key: str
         st.slider(label, minimum, maximum, step=step, key=key, help=description)
     with info_column:
         st.info(description, icon="ℹ️")
-
-
-def auto_detect_plate(image_bgr: np.ndarray, kernel_size: int, canny_low: int, canny_high: int, minimum_area: int) -> Optional[np.ndarray]:
-    """Use the classical grayscale → blur → Canny → contour pipeline.
-
-    Contours are sorted from the largest area downward.  The first candidate
-    with four approximated vertices, a plausible plate ratio, and enough
-    area is used as the automatic plate quadrilateral.
-    """
-    image_height, image_width = image_bgr.shape[:2]
-    scaled_minimum_area = max(
-        20.0,
-        float(minimum_area) * (image_height * image_width / REFERENCE_IMAGE_AREA),
-    )
-    gray = cv2.cvtColor(image_bgr, cv2.COLOR_BGR2GRAY)
-    kernel_size = kernel_size if kernel_size % 2 else kernel_size + 1
-    blurred = cv2.GaussianBlur(gray, (kernel_size, kernel_size), 0)
-    edges = cv2.Canny(blurred, canny_low, canny_high)
-    contours, _ = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
-    sorted_contours = sorted(contours, key=cv2.contourArea, reverse=True)
-
-    for contour in sorted_contours:
-        area = cv2.contourArea(contour)
-        if area < scaled_minimum_area:
-            break
-        perimeter = cv2.arcLength(contour, True)
-        approximate = cv2.approxPolyDP(contour, 0.02 * perimeter, True)
-        if len(approximate) != 4:
-            continue
-        _, _, width, height = cv2.boundingRect(approximate)
-        if height == 0:
-            continue
-        aspect_ratio = width / height
-        if not MIN_PLATE_ASPECT_RATIO <= aspect_ratio <= MAX_PLATE_ASPECT_RATIO:
-            continue
-        candidate = order_points(approximate.reshape(4, 2))
-        if validate_quadrilateral(candidate)[0]:
-            return candidate
-
-    # A very shallow angle can need a looser approximation epsilon, while the
-    # same vertex, aspect, and area requirements still protect this fallback.
-    for contour in sorted_contours:
-        area = cv2.contourArea(contour)
-        if area < scaled_minimum_area:
-            break
-        perimeter = cv2.arcLength(contour, True)
-        for epsilon_factor in (0.01, 0.03, 0.04, 0.05):
-            approximate = cv2.approxPolyDP(contour, epsilon_factor * perimeter, True)
-            if len(approximate) != 4:
-                continue
-            _, _, width, height = cv2.boundingRect(approximate)
-            if height == 0 or not MIN_PLATE_ASPECT_RATIO <= width / height <= MAX_PLATE_ASPECT_RATIO:
-                continue
-            candidate = order_points(approximate.reshape(4, 2))
-            if validate_quadrilateral(candidate)[0]:
-                return candidate
-    return None
 
 
 def image_as_png(image_bgr: np.ndarray) -> bytes:
@@ -235,10 +149,11 @@ if (processing_width, processing_height) != (original_width, original_height):
 
 st.subheader("เลือกระยะของป้ายทะเบียน")
 preset = st.selectbox("ระยะภาพ", list(PRESETS), key="preset")
+detector_config = PRESETS[preset].get("detector_config", DEFAULT_CONFIG)
 if st.session_state["applied_preset"] != preset:
     apply_preset(preset)
 st.caption(PRESETS[preset]["description"])
-st.caption("ค่า Preset ปรับจากชุดภาพ YOLO ที่มีกรอบป้ายกำกับ 456 ภาพ ใช้เป็นจุดเริ่มต้น และควรตรวจสอบผลด้วยภาพจริงก่อน crop ทุกครั้ง")
+st.caption("มี preset ทดลองจากชุด YOLO 456 ภาพ แยกตามกลุ่มต้นฉบับเป็นชุดปรับค่า / validation / test คะแนนวัดตำแหน่งกรอบ ไม่ได้วัดความแม่นของมุมทั้ง 4 ควรตรวจกรอบก่อน crop")
 
 st.subheader("ปรับค่าก่อนค้นหาป้ายทะเบียน")
 st.caption("ค่าเหล่านี้มีผลต่อการค้นหาอัตโนมัติและภาพผลลัพธ์ ใช้ค่า Preset เป็นจุดเริ่มต้น แล้วปรับเมื่อระบบเลือกป้ายไม่ตรง")
@@ -263,13 +178,34 @@ if undo_clicked and st.session_state["selected_points"]:
     st.rerun()
 if detect_clicked:
     with st.spinner("กำลังค้นหาป้ายทะเบียน..."):
-        detected = auto_detect_plate(processing_bgr, st.session_state["kernel"], st.session_state["canny_low"], st.session_state["canny_high"], st.session_state["min_area"])
+        detection = detect_plate(processing_bgr, st.session_state["kernel"], st.session_state["canny_low"], st.session_state["canny_high"], st.session_state["min_area"], config=detector_config)
+    detected = detection.corners
     if detected is None:
         st.warning("ยังไม่พบป้ายอัตโนมัติ กรุณาเลือก 4 จุดด้วยตนเอง")
     else:
         detected_in_original = detected * np.array([processing_to_original_x, processing_to_original_y], dtype=np.float32)
         st.session_state["selected_points"] = detected_in_original.astype(float).tolist()
-        st.success("พบตำแหน่งที่เป็นไปได้แล้ว ตรวจสอบหรือเลือกใหม่ได้")
+        source = "ใช้ขอบป้ายจาก contour แรก" if detection.selected.corner_source == "direct" else "ค้นหาขอบป้ายซ้ำใน ROI"
+        st.success(f"พบตำแหน่งที่เป็นไปได้แล้ว — คะแนน {detection.selected.score:.3f} · {source} ตรวจสอบหรือเลือกใหม่ได้")
+    with st.expander("คะแนนบริเวณที่อาจเป็นป้ายทะเบียน", expanded=True):
+        st.caption("คะแนนรวม 0–1 ใช้จัดอันดับ ไม่ใช่เปอร์เซ็นต์ความแม่นยำ เลือกอันดับสูงสุดที่ผ่านเกณฑ์และหามุมได้ครบ 4 จุด")
+        feature_labels = ("Area", "Aspect ratio", "Rectangularity", "Solidity", "Approximation", "Edge density")
+        st.caption("น้ำหนัก: " + " · ".join(f"{label} {weight:.0%}" for label, weight in zip(feature_labels, detector_config.weights)))
+        rows = []
+        for rank, candidate in enumerate(detection.candidates, 1):
+            if rank > 20 and candidate is not detection.selected:
+                continue
+            rows.append({
+                "อันดับ": rank,
+                "เลือก": candidate is detection.selected,
+                "ROI (x, y, w, h)": str(candidate.bbox),
+                "คะแนนรวม": round(candidate.score, 3),
+                **{name: round(value, 3) for name, value in candidate.scores.items()},
+            })
+        if rows:
+            st.dataframe(rows, hide_index=True, width="stretch")
+        else:
+            st.caption("ยังไม่มีบริเวณที่ผ่านเงื่อนไขพื้นฐาน")
 
 display_width = min(MAX_DISPLAY_WIDTH, original_width)
 display_height = max(1, round(original_height * display_width / original_width))

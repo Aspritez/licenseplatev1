@@ -1,0 +1,80 @@
+[
+  {
+    "name": "baseline",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "weights": [
+        0.1,
+        0.15,
+        0.15,
+        0.1,
+        0.15,
+        0.35
+      ],
+      "area_band": [
+        0.0,
+        0.003,
+        0.35,
+        0.85
+      ],
+      "aspect_band": [
+        0.8,
+        1.4,
+        2.5,
+        4.5
+      ],
+      "min_aspect": 0.9,
+      "max_aspect": 4.5,
+      "max_area_fraction": 0.85,
+      "minimum_score": 0.62,
+      "minimum_edge_density": 0.012,
+      "corner_area_fit": 0.88,
+      "direct_rectangularity": 0.7,
+      "direct_solidity": 0.85
+    }
+  },
+  {
+    "name": "tuned",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "weights": [
+        0.1,
+        0.15,
+        0.15,
+        0.1,
+        0.15,
+        0.35
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ],
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "min_aspect": 0.6,
+      "max_aspect": 4.5,
+      "max_area_fraction": 1.0,
+      "minimum_score": 0.62,
+      "minimum_edge_density": 0.012,
+      "corner_area_fit": 0.8,
+      "direct_rectangularity": 0.65,
+      "direct_solidity": 0.8
+    }
+  }
+]

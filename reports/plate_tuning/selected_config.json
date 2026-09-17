@@ -1,0 +1,33 @@
+{
+  "selection": "Highest validation hits at IoU >= 0.5, then mean IoU; frozen before test evaluation",
+  "experiment": {
+    "name": "wide_fit80",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ],
+      "corner_area_fit": 0.8,
+      "direct_solidity": 0.8,
+      "direct_rectangularity": 0.65
+    }
+  },
+  "deployment": "The user subsequently requested the dataset v23 preset as the app default. Uploading an image and pressing automatic detection uses this preset unless the user selects another preset. Evaluation results are unchanged.",
+  "initial_evaluation_decision": "Opt-in experimental preset only. Keep baseline default because held-out correct localizations increased by one image while incorrect returned boxes increased by 21."
+}

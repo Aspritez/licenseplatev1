@@ -1,0 +1,77 @@
+[
+  {
+    "name": "wide_k3_area5000",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 5000
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "wide_k7_area5000",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 5000
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "wide_k3_max98",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 0.98,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  }
+]

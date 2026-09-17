@@ -1,0 +1,406 @@
+[
+  {
+    "name": "original_k3",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {}
+  },
+  {
+    "name": "original_k5",
+    "preprocessing": {
+      "kernel_size": 5,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {}
+  },
+  {
+    "name": "original_k7",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 150
+    },
+    "scoring": {}
+  },
+  {
+    "name": "original_k9",
+    "preprocessing": {
+      "kernel_size": 9,
+      "canny_low": 50,
+      "canny_high": 150,
+      "minimum_area": 150
+    },
+    "scoring": {}
+  },
+  {
+    "name": "wide_k3",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "wide_k5",
+    "preprocessing": {
+      "kernel_size": 5,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "wide_k7",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "wide_k9",
+    "preprocessing": {
+      "kernel_size": 9,
+      "canny_low": 50,
+      "canny_high": 150,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.003,
+        0.98,
+        1.01
+      ]
+    }
+  },
+  {
+    "name": "area20_k3",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.2,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.3,
+        0.15,
+        0.1,
+        0.1,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area20_k5",
+    "preprocessing": {
+      "kernel_size": 5,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.2,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.3,
+        0.15,
+        0.1,
+        0.1,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area20_k7",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.2,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.3,
+        0.15,
+        0.1,
+        0.1,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area20_k9",
+    "preprocessing": {
+      "kernel_size": 9,
+      "canny_low": 50,
+      "canny_high": 150,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.2,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.3,
+        0.15,
+        0.1,
+        0.1,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area50_k3",
+    "preprocessing": {
+      "kernel_size": 3,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.5,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.4,
+        0.1,
+        0.1,
+        0.05,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area50_k5",
+    "preprocessing": {
+      "kernel_size": 5,
+      "canny_low": 20,
+      "canny_high": 80,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.5,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.4,
+        0.1,
+        0.1,
+        0.05,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area50_k7",
+    "preprocessing": {
+      "kernel_size": 7,
+      "canny_low": 35,
+      "canny_high": 110,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.5,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.4,
+        0.1,
+        0.1,
+        0.05,
+        0.1,
+        0.25
+      ]
+    }
+  },
+  {
+    "name": "area50_k9",
+    "preprocessing": {
+      "kernel_size": 9,
+      "canny_low": 50,
+      "canny_high": 150,
+      "minimum_area": 150
+    },
+    "scoring": {
+      "max_area_fraction": 1.0,
+      "min_aspect": 0.6,
+      "aspect_band": [
+        0.5,
+        1.0,
+        2.5,
+        4.5
+      ],
+      "area_band": [
+        0,
+        0.5,
+        0.98,
+        1.01
+      ],
+      "weights": [
+        0.4,
+        0.1,
+        0.1,
+        0.05,
+        0.1,
+        0.25
+      ]
+    }
+  }
+]

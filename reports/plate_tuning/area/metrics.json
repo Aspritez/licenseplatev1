@@ -1,0 +1,170 @@
+{
+  "archive": "License plate.v23-v4-8.yolov8.zip",
+  "archive_sha256": "97aa402599a2b114cf630c442b83c0d0b808870f21cfb33f3ebf7d3661eae430",
+  "seed": 42,
+  "grouping": "filename stem before .rf.",
+  "baseline_scoring": {
+    "weights": [
+      0.1,
+      0.15,
+      0.15,
+      0.1,
+      0.15,
+      0.35
+    ],
+    "area_band": [
+      0.0,
+      0.003,
+      0.35,
+      0.85
+    ],
+    "aspect_band": [
+      0.8,
+      1.4,
+      2.5,
+      4.5
+    ],
+    "min_aspect": 0.9,
+    "max_aspect": 4.5,
+    "max_area_fraction": 0.85,
+    "minimum_score": 0.62,
+    "minimum_edge_density": 0.012,
+    "corner_area_fit": 0.88,
+    "direct_rectangularity": 0.7,
+    "direct_solidity": 0.85
+  },
+  "experiments": [
+    {
+      "name": "wide_k3_area5000",
+      "settings": {
+        "name": "wide_k3_area5000",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 5000
+        },
+        "scoring": {
+          "max_area_fraction": 1.0,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "tune": {
+          "images": 273,
+          "groups": 91,
+          "hits_iou50": 130,
+          "hit_rate_iou50": 0.47619047619047616,
+          "incorrect_returned": 87,
+          "returned_precision_iou50": 0.5990783410138248,
+          "hits_iou75": 33,
+          "mean_iou": 0.3975909835914608,
+          "no_detection": 56,
+          "mean_seconds": 0.03756508972468503
+        }
+      }
+    },
+    {
+      "name": "wide_k7_area5000",
+      "settings": {
+        "name": "wide_k7_area5000",
+        "preprocessing": {
+          "kernel_size": 7,
+          "canny_low": 35,
+          "canny_high": 110,
+          "minimum_area": 5000
+        },
+        "scoring": {
+          "max_area_fraction": 1.0,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "tune": {
+          "images": 273,
+          "groups": 91,
+          "hits_iou50": 125,
+          "hit_rate_iou50": 0.45787545787545786,
+          "incorrect_returned": 100,
+          "returned_precision_iou50": 0.5555555555555556,
+          "hits_iou75": 31,
+          "mean_iou": 0.38999691831615696,
+          "no_detection": 48,
+          "mean_seconds": 0.022763208786346318
+        }
+      }
+    },
+    {
+      "name": "wide_k3_max98",
+      "settings": {
+        "name": "wide_k3_max98",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 150
+        },
+        "scoring": {
+          "max_area_fraction": 0.98,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "tune": {
+          "images": 273,
+          "groups": 91,
+          "hits_iou50": 128,
+          "hit_rate_iou50": 0.46886446886446886,
+          "incorrect_returned": 100,
+          "returned_precision_iou50": 0.5614035087719298,
+          "hits_iou75": 33,
+          "mean_iou": 0.39179115776193385,
+          "no_detection": 45,
+          "mean_seconds": 0.05519669485916367
+        }
+      }
+    }
+  ],
+  "runtime": {
+    "python": "3.13.2",
+    "opencv": "4.10.0",
+    "numpy": "2.3.5",
+    "workers": 1
+  }
+}

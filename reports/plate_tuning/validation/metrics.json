@@ -1,0 +1,269 @@
+{
+  "archive": "License plate.v23-v4-8.yolov8.zip",
+  "archive_sha256": "97aa402599a2b114cf630c442b83c0d0b808870f21cfb33f3ebf7d3661eae430",
+  "seed": 42,
+  "grouping": "filename stem before .rf.",
+  "baseline_scoring": {
+    "weights": [
+      0.1,
+      0.15,
+      0.15,
+      0.1,
+      0.15,
+      0.35
+    ],
+    "area_band": [
+      0.0,
+      0.003,
+      0.35,
+      0.85
+    ],
+    "aspect_band": [
+      0.8,
+      1.4,
+      2.5,
+      4.5
+    ],
+    "min_aspect": 0.9,
+    "max_aspect": 4.5,
+    "max_area_fraction": 0.85,
+    "minimum_score": 0.62,
+    "minimum_edge_density": 0.012,
+    "corner_area_fit": 0.88,
+    "direct_rectangularity": 0.7,
+    "direct_solidity": 0.85
+  },
+  "experiments": [
+    {
+      "name": "original_k7",
+      "settings": {
+        "name": "original_k7",
+        "preprocessing": {
+          "kernel_size": 7,
+          "canny_low": 35,
+          "canny_high": 110,
+          "minimum_area": 150
+        },
+        "scoring": {}
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 48,
+          "hit_rate_iou50": 0.5333333333333333,
+          "incorrect_returned": 23,
+          "returned_precision_iou50": 0.676056338028169,
+          "hits_iou75": 16,
+          "mean_iou": 0.4106490700985778,
+          "no_detection": 19,
+          "mean_seconds": 0.031053650016999907
+        }
+      }
+    },
+    {
+      "name": "original_k3",
+      "settings": {
+        "name": "original_k3",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 150
+        },
+        "scoring": {}
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 50,
+          "hit_rate_iou50": 0.5555555555555556,
+          "incorrect_returned": 24,
+          "returned_precision_iou50": 0.6756756756756757,
+          "hits_iou75": 18,
+          "mean_iou": 0.4218668769140607,
+          "no_detection": 16,
+          "mean_seconds": 0.045820264456172786
+        }
+      }
+    },
+    {
+      "name": "wide_k3_area5000",
+      "settings": {
+        "name": "wide_k3_area5000",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 5000
+        },
+        "scoring": {
+          "max_area_fraction": 1.0,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 50,
+          "hit_rate_iou50": 0.5555555555555556,
+          "incorrect_returned": 25,
+          "returned_precision_iou50": 0.6666666666666666,
+          "hits_iou75": 19,
+          "mean_iou": 0.4404947860884183,
+          "no_detection": 15,
+          "mean_seconds": 0.03388774001246525
+        }
+      }
+    },
+    {
+      "name": "wide_area1000",
+      "settings": {
+        "name": "wide_area1000",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 1000
+        },
+        "scoring": {
+          "max_area_fraction": 1.0,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 50,
+          "hit_rate_iou50": 0.5555555555555556,
+          "incorrect_returned": 28,
+          "returned_precision_iou50": 0.6410256410256411,
+          "hits_iou75": 19,
+          "mean_iou": 0.4351982392638877,
+          "no_detection": 12,
+          "mean_seconds": 0.04546271333884862
+        }
+      }
+    },
+    {
+      "name": "wide_k3_max98",
+      "settings": {
+        "name": "wide_k3_max98",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 150
+        },
+        "scoring": {
+          "max_area_fraction": 0.98,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ]
+        }
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 50,
+          "hit_rate_iou50": 0.5555555555555556,
+          "incorrect_returned": 28,
+          "returned_precision_iou50": 0.6410256410256411,
+          "hits_iou75": 19,
+          "mean_iou": 0.43508002068267093,
+          "no_detection": 12,
+          "mean_seconds": 0.051276003336533905
+        }
+      }
+    },
+    {
+      "name": "wide_fit80",
+      "settings": {
+        "name": "wide_fit80",
+        "preprocessing": {
+          "kernel_size": 3,
+          "canny_low": 20,
+          "canny_high": 80,
+          "minimum_area": 150
+        },
+        "scoring": {
+          "max_area_fraction": 1.0,
+          "min_aspect": 0.6,
+          "aspect_band": [
+            0.5,
+            1.0,
+            2.5,
+            4.5
+          ],
+          "area_band": [
+            0,
+            0.003,
+            0.98,
+            1.01
+          ],
+          "corner_area_fit": 0.8,
+          "direct_solidity": 0.8,
+          "direct_rectangularity": 0.65
+        }
+      },
+      "metrics": {
+        "validation": {
+          "images": 90,
+          "groups": 30,
+          "hits_iou50": 55,
+          "hit_rate_iou50": 0.6111111111111112,
+          "incorrect_returned": 29,
+          "returned_precision_iou50": 0.6547619047619048,
+          "hits_iou75": 22,
+          "mean_iou": 0.4745174165163881,
+          "no_detection": 6,
+          "mean_seconds": 0.04826866107889348
+        }
+      }
+    }
+  ],
+  "runtime": {
+    "python": "3.13.2",
+    "opencv": "4.10.0",
+    "numpy": "2.3.5",
+    "workers": 1
+  }
+}
